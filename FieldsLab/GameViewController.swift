@@ -12,13 +12,14 @@ import SpriteKit
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
         
-        let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks")!
+        let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks")!
         
-        var sceneData = NSData(contentsOfURL:NSURL(fileURLWithPath:path)!, options: .DataReadingMappedIfSafe, error: nil)!
-        var archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+        
+        let sceneData = try! NSData(contentsOfURL:NSURL(fileURLWithPath:path), options: NSDataReadingOptions.DataReadingMappedIfSafe)
+        let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
         
         archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as GameScene
+        let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! GameScene
         archiver.finishDecoding()
         return scene
     }
@@ -34,7 +35,7 @@ class GameViewController: UIViewController,  UITableViewDataSource, UITableViewD
 
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
-            let skView = self.view as SKView
+            let skView = self.view as! SKView
             skView.showsFPS = true
             skView.showsNodeCount = true
             
@@ -55,7 +56,7 @@ class GameViewController: UIViewController,  UITableViewDataSource, UITableViewD
     }
 
     var gs:GameScene {
-        return (view as SKView).scene as GameScene
+        return (view as! SKView).scene as! GameScene
     }
     
     
@@ -69,15 +70,15 @@ class GameViewController: UIViewController,  UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
-        cell.textLabel.text = fieldTypeNames[ indexPath.row ].rawValue
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        cell.textLabel!.text = fieldTypeNames[ indexPath.row ].rawValue
         return cell
     }
 
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!)
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var cell = tableView.cellForRowAtIndexPath(indexPath)
-        let text = cell!.textLabel.text!
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        let text = cell!.textLabel!.text!
         gs.createFieldEnvironment(FieldTypeNames(rawValue: text)!)
     }
     

@@ -83,49 +83,49 @@ class GameScene: SKScene {
             case .None:
                 break
             case .RadialGravity:
-                var radial = SKFieldNode.radialGravityField()
+                let radial = SKFieldNode.radialGravityField()
                 impulseMultiplier = 300
                 bestBodyMass = 0.5
                 field = radial
                 field!.strength = 4.0
             case .Vortex:
-                var vortext = SKFieldNode.vortexField()
+                let vortext = SKFieldNode.vortexField()
                 impulseMultiplier = 500
                 bestBodyMass = 0.6
                 field = vortext
                 field!.strength = 1.0
             case .Drag:
-                var drag = SKFieldNode.dragField()
+                let drag = SKFieldNode.dragField()
                 drag.strength = 0.5
                 bestBodyMass = 1.1
                 impulseMultiplier = 200
                 field = drag
             case .VelocityTexture:
-                println("Not implemented: \(name)")
+                print("Not implemented: \(name)")
             case .Noise:
-                var noise = SKFieldNode.noiseFieldWithSmoothness(1.0, animationSpeed: 0.5)
+                let noise = SKFieldNode.noiseFieldWithSmoothness(1.0, animationSpeed: 0.5)
                 bestBodyMass = 0.2
                 impulseMultiplier = 3.0
                 field = noise
             case .Turbulence:
-                var turbulence = SKFieldNode.turbulenceFieldWithSmoothness(1.0, animationSpeed: 0.5)
+                let turbulence = SKFieldNode.turbulenceFieldWithSmoothness(1.0, animationSpeed: 0.5)
                 bestBodyMass = 1.0
                 impulseMultiplier = 300.0
                 field = turbulence
             case .Spring:
-                var spring = SKFieldNode.springField()
+                let spring = SKFieldNode.springField()
                 spring.strength = 1.0
                 bestBodyMass = 0.1
                 field = spring
                 impulseMultiplier = 400
             case .Electric:
-                var electric = SKFieldNode.electricField()
+                let electric = SKFieldNode.electricField()
                 electric.strength = 100.0
                 bestBodyMass = 0.5
                 impulseMultiplier = 400
                 field = electric
             case .Magnetic:
-                var magnetic = SKFieldNode.magneticField()
+                let magnetic = SKFieldNode.magneticField()
                 magnetic.strength = 1.0
                 bestBodyMass = 0.5
                 impulseMultiplier = 400
@@ -138,7 +138,7 @@ class GameScene: SKScene {
             f.position = fieldPos
             addChild(f)
             
-            var shape = SKShapeNode(circleOfRadius: 8)
+            let shape = SKShapeNode(circleOfRadius: 8)
             shape.strokeColor = UIColor.whiteColor()
             shape.fillColor = UIColor.blackColor()
             shape.alpha = 0.7
@@ -147,7 +147,7 @@ class GameScene: SKScene {
         }
         
         
-        var shape = SKShapeNode(circleOfRadius: 8)
+        let shape = SKShapeNode(circleOfRadius: 8)
         shape.strokeColor = UIColor.whiteColor()
         shape.fillColor = UIColor.greenColor()
         shape.alpha = 0.7
@@ -159,7 +159,7 @@ class GameScene: SKScene {
     
     func makeNode() -> SKNode
     {
-        var node = SKSpriteNode(color: UIColor.redColor(), size: CGSize(width:20,height:20))
+        let node = SKSpriteNode(color: UIColor.redColor(), size: CGSize(width:20,height:20))
         node.position = emitterPos
         node.physicsBody = SKPhysicsBody(rectangleOfSize: node.size)
         node.physicsBody!.dynamic = true
@@ -180,7 +180,7 @@ class GameScene: SKScene {
         {
             if( currentTime - timeMark > emitterThreshold )
             {
-                var node = makeNode()
+                let node = makeNode()
                 node.physicsBody!.applyImpulse( CGVectorMake( node.physicsBody!.mass * impulseMultiplier, 50))
                 lastTimeMark = currentTime
             }
